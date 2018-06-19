@@ -1,0 +1,88 @@
+.global crcTable
+.global crcFast
+.global crcInit
+
+.text
+crcInit:
+	mov $0 , %rbx			# remainder
+	mov $0 , %rax 			 # dividend
+
+loop1:
+	mov $8 , %rcx 			#bit
+
+	movq %rax , %rbx #remainder = dividend;
+      #crcTable[dividend] = remainder;
+
+	cmp $255 , %rax 
+	jle loop2
+
+	jmp end
+	
+loop2:	
+	mov %rbx , %rsi #pass remainder to knew register
+	cmp $0 , %rcx #bit
+	jle megablaster
+		and $0x80 , %rsi
+		cmp $0 , %rsi #if
+
+	jz ELSE
+	IF:		
+		salq $1 , %rbx #remainder * 2 shifts two to the num inppted
+		xorq $0xD5, %rbx
+		decq %rcx
+		jmp loop2
+
+
+	ELSE:
+		salq $1 , %rbx #remainder * 2 shifts two to the num inppted
+		decq %rcx
+		jmp loop2
+		
+megablaster:
+	mov $crcTable , %rdi
+	mov %rbx , (%rdi , %rax , 1)  
+	incq %rax
+	
+	jmp loop1
+	
+end: #ends program
+ret
+
+crcFast:
+	#rdi is message
+	#rsi is nBytes
+	mov $0 , %rdx #data
+	mov $0 , %rax #remainder
+	mov $0 , %rcx #byte
+	
+	floops:
+	cmp %rcx , %rsi 
+	jle done
+			
+	#data:
+	movb  (%rdi , %rcx , 1) , %dl #data
+	xorq %rdx , %rax  # ^
+
+	#remainder:
+	mov $crcTable , %r11
+	movb  (%r11 , %rdx , 1) , %al  #remainder
+	inc %rcx
+	jmp floops
+	
+#exit if greater than nBytes
+done:
+ret
+	
+	#lecture 9 slide 16
+	
+
+.data 
+testtext:
+	.asciz "test"
+.data
+crcTable:
+	.rept 256 
+	.byte 0
+	.endr
+
+

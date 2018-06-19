@@ -1,0 +1,10 @@
+The Performance Evaluation of Raul
+
+1)	What version of the code provided the best performance? (non-optimized, unrolled 4 times, or unrolled 8 times) 
+Unrolled 4 times is the best performance due to the less operations then non-optimized and less unrolling then 8 times. The times with the 8 and 4 were similar in time but the 8 unrolling requires more allocation for memory then the 4th loop unrolling.
+2)	Did loop unrolling provided any benefit? 
+Yes, the time was a big difference from non optimized. However, in this small code, the microseconds of faster performance wouldn’t do much in the program for the Homework. Only way I see optimizing we learned in class more useful is where speed matters in a bigger amount of code with multiple object files linking together. Then time vs space tradeoff” is more important.
+3)	Why do you think that loop unrolling was or was not beneficial in this case? 
+5000 ms = 5 seconds
+16% faster is a lot of performance difference in a real world application. However, 1 second difference doesn’t do much in my small code. So, I think that percentage wise the code is a lot more efficient but in my code 1 second faster doesn’t make much of a difference.
+
