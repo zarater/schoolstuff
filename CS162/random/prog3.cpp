@@ -65,10 +65,12 @@ int main()
 //function call
 	do
 	{
-		info(ideas);
-		turnitintofile(ideas);
+		int i=0;
+		info(ideas, i);a
+		++i
 	} while (ask() == true);
 
+		turnitintofile(ideas);
 	return 0;
 }
 
